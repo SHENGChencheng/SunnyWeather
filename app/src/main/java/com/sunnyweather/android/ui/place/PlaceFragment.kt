@@ -43,7 +43,7 @@ class PlaceFragment : Fragment() {
             } else {
                 binding.recyclerView.visibility = View.GONE
                 binding.bgImageView.visibility = View.VISIBLE
-                viewModel.clearPlaceList()
+                viewModel.placeList.clear()
                 adapter.notifyDataSetChanged()
             }
         }
@@ -54,7 +54,8 @@ class PlaceFragment : Fragment() {
                 if (places != null) {
                     binding.recyclerView.visibility = View.VISIBLE
                     binding.bgImageView.visibility = View.GONE
-                    viewModel.updatePlaceList(places)
+                    viewModel.placeList.clear()
+                    viewModel.placeList.addAll(places)
                     adapter.notifyDataSetChanged()
                 } else {
                     Toast.makeText(activity, "未能查询到任何地点", Toast.LENGTH_SHORT).show()

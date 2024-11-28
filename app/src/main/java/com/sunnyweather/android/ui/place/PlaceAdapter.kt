@@ -13,7 +13,7 @@ import com.sunnyweather.android.logic.model.Place
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class PlaceAdapter(val fragment: Fragment, private var placeList: StateFlow<List<Place>>) : RecyclerView.Adapter<PlaceAdapter.ViewHolder>(){
+class PlaceAdapter(val fragment: Fragment, private var placeList: List<Place>) : RecyclerView.Adapter<PlaceAdapter.ViewHolder>(){
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val placeName: TextView = view.findViewById(R.id.placeName)
@@ -26,11 +26,11 @@ class PlaceAdapter(val fragment: Fragment, private var placeList: StateFlow<List
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val place = placeList.value[position]
+        val place = placeList[position]
         holder.placeName.text = place.name
         holder.placeAddress.text = place.address
     }
 
-    override fun getItemCount(): Int = placeList.value.size
+    override fun getItemCount(): Int = placeList.size
 
 }

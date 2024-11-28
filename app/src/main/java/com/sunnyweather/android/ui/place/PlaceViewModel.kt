@@ -5,17 +5,13 @@ import com.sunnyweather.android.logic.model.Place
 import com.sunnyweather.android.logic.repository.Repository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 
 class PlaceViewModel : ViewModel() {
 
-    private val _searchQuery = MutableStateFlow("")
-    val searchQuery = _searchQuery.asStateFlow()
+    private val searchQuery = MutableStateFlow("")
 
-    private val _placeList = MutableStateFlow<List<Place>>(emptyList())
-    val placeList: StateFlow<List<Place>> = _placeList.asStateFlow()
+    var placeList = ArrayList<Place>()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val placeFlow = searchQuery.flatMapLatest { query ->
@@ -23,14 +19,7 @@ class PlaceViewModel : ViewModel() {
         }
 
     fun searchPlaces(query: String) {
-        _searchQuery.value = query
+        searchQuery.value = query
     }
 
-    fun clearPlaceList() {
-        _placeList.value = emptyList()
-    }
-
-    fun updatePlaceList(places: List<Place>) {
-        _placeList.value = places
-    }
 }
