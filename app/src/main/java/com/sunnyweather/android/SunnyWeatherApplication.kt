@@ -3,6 +3,7 @@ package com.sunnyweather.android
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.widget.Toast
 
 class SunnyWeatherApplication : Application() {
     companion object {
