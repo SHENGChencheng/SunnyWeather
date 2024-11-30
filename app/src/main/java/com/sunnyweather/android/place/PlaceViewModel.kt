@@ -1,4 +1,4 @@
-package com.sunnyweather.android.ui.place
+package com.sunnyweather.android.place
 
 import androidx.lifecycle.ViewModel
 import com.sunnyweather.android.logic.model.Place
