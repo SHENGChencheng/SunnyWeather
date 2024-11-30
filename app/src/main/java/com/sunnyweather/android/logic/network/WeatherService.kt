@@ -12,7 +12,7 @@ interface WeatherService {
     @GET("v2.5/${SunnyWeatherApplication.TOKEN}/{lng},{lat}/realtime.json")
     fun getRealTimeWeather(@Path("lng") lng: String, @Path("lat") lat: String): Call<RealtimeResponse>
 
-    @GET("v2.5/${SunnyWeatherApplication.TOKEN}/{lng},{lat/daily.json}")
+    @GET("v2.5/${SunnyWeatherApplication.TOKEN}/{lng},{lat}/daily.json}")
     fun getDailyWeather(@Path("lng") lng: String, @Path("lat") lat: String): Call<DailyResponse>
 
 }

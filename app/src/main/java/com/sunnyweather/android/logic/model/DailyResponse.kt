@@ -22,7 +22,7 @@ data class DailyResponse(
     )
 
     data class Skycon(
-        val data: Date,
+        val date: Date,
         val value: String,
     )
 
