@@ -1,14 +1,11 @@
 package com.sunnyweather.android.weather
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +14,7 @@ import com.sunnyweather.android.databinding.ActivityWeatherBinding
 import com.sunnyweather.android.logic.model.LocationData
 import com.sunnyweather.android.logic.model.Weather
 import com.sunnyweather.android.logic.model.getSky
+import com.sunnyweather.android.utils.showToast
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -42,7 +40,7 @@ class WeatherActivity : AppCompatActivity() {
                 if (weather != null) {
                     showWeatherInfo(weather)
                 } else {
-                    Toast.makeText(this@WeatherActivity, "无法成功获取天气信息", Toast.LENGTH_SHORT).show()
+                    showToast("无法成功获取天气信息")
                     result.exceptionOrNull()?.printStackTrace()
                 }
             }
