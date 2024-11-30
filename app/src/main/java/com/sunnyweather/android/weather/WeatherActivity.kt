@@ -1,29 +1,24 @@
 package com.sunnyweather.android.weather
 
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.sunnyweather.android.R
 import com.sunnyweather.android.databinding.ActivityWeatherBinding
-import com.sunnyweather.android.databinding.FragmentPlaceBinding
+import com.sunnyweather.android.logic.model.LocationData
 import com.sunnyweather.android.logic.model.Weather
 import com.sunnyweather.android.logic.model.getSky
-import com.sunnyweather.android.place.PlaceAdapter
-import com.sunnyweather.android.place.PlaceViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Locale
 
 class WeatherActivity : AppCompatActivity() {
@@ -37,11 +32,10 @@ class WeatherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityWeatherBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel.initData(
-            intent.getStringExtra("location_lng"),
-            intent.getStringExtra("location_lat"),
-            intent.getStringExtra("place_name")
-        )
+        val locationData = intent.getParcelableExtra<LocationData>("location_data")
+        locationData?.let {
+            viewModel.initData(it.lng, it.lat, it.placeName)
+        }
         lifecycleScope.launch {
             viewModel.weatherFlow.collect { result ->
                 val weather = result.getOrNull()
