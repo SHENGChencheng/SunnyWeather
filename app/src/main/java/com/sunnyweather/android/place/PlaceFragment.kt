@@ -1,5 +1,6 @@
 package com.sunnyweather.android.place
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sunnyweather.android.databinding.FragmentPlaceBinding
+import com.sunnyweather.android.logic.model.LocationData
 import com.sunnyweather.android.utils.showToast
+import com.sunnyweather.android.weather.WeatherActivity
 import kotlinx.coroutines.launch
 
 class PlaceFragment : Fragment() {
 
-    private val viewModel by lazy { ViewModelProvider(this)[PlaceViewModel::class.java] }
+    val viewModel by lazy { ViewModelProvider(this)[PlaceViewModel::class.java] }
 
     private lateinit var _binding: FragmentPlaceBinding
     private val binding get() = _binding
@@ -35,6 +38,17 @@ class PlaceFragment : Fragment() {
         binding.recyclerView.layoutManager = layout
         adapter = PlaceAdapter(this, viewModel.placeList)
         binding.recyclerView.adapter = adapter
+
+        if (viewModel.isPlaceSaved()) {
+            val savedPlace = viewModel.getSavedPlace()
+            val locationData = LocationData(savedPlace.location.lng, savedPlace.location.lat, savedPlace.name)
+            val intent = Intent(context, WeatherActivity::class.java).apply {
+                putExtra("location_data", locationData)
+            }
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
 
         binding.searchPlaceEdit.addTextChangedListener { editable ->
             val content = editable.toString()
