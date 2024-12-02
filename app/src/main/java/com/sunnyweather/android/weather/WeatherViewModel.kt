@@ -24,11 +24,15 @@ class WeatherViewModel : ViewModel() {
         Repository.refreshWeather(location.location.lng, location.location.lat)
     }
 
-    fun updateLocation(lng: String, lat: String) {
+    fun refreshWeather(
+        lng: String = location.value.location.lng,
+        lat: String = location.value.location.lat,
+    ) {
         val newLocation = Location(lng, lat)
         _location.update {
             it.copy(
-                location = newLocation
+                location = newLocation,
+                address = System.currentTimeMillis().toString()
             )
         }
     }

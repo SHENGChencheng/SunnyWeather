@@ -16,6 +16,9 @@ import com.sunnyweather.android.logic.model.LocationData
 import com.sunnyweather.android.logic.model.Weather
 import com.sunnyweather.android.logic.model.getSky
 import com.sunnyweather.android.utils.showToast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -48,6 +51,14 @@ class WeatherActivity : AppCompatActivity() {
                     showToast("无法成功获取天气信息")
                     result.exceptionOrNull()?.printStackTrace()
                 }
+                binding.swipeRefresh.isRefreshing = false
+            }
+        }
+        binding.swipeRefresh.setOnRefreshListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                binding.swipeRefresh.isRefreshing = true
+                delay(500)
+                viewModel.refreshWeather()
             }
         }
     }
@@ -66,6 +77,7 @@ class WeatherActivity : AppCompatActivity() {
         }
         // 填充forecast.xml布局
         binding.forecastLayout.apply {
+            forecastContentLayout.removeAllViews()
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val days = daily.skycon.size
             for (i in 0 until days) {
