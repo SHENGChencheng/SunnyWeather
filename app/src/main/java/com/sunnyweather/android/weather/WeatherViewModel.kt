@@ -47,4 +47,13 @@ class WeatherViewModel : ViewModel() {
         }
     }
 
+    fun updateLocation(placeName: String, lng: String, lat: String) {
+        _location.update {
+            it.copy(
+                name = placeName,
+                location = Location(lng, lat),
+            )
+        }
+    }
+
 }

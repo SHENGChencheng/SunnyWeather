@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sunnyweather.android.MainActivity
 import com.sunnyweather.android.databinding.FragmentPlaceBinding
 import com.sunnyweather.android.logic.model.LocationData
 import com.sunnyweather.android.utils.showToast
@@ -39,7 +40,7 @@ class PlaceFragment : Fragment() {
         adapter = PlaceAdapter(this, viewModel.placeList)
         binding.recyclerView.adapter = adapter
 
-        if (viewModel.isPlaceSaved()) {
+        if (activity is MainActivity && viewModel.isPlaceSaved()) {
             val savedPlace = viewModel.getSavedPlace()
             val locationData = LocationData(savedPlace.location.lng, savedPlace.location.lat, savedPlace.name)
             val intent = Intent(context, WeatherActivity::class.java).apply {
